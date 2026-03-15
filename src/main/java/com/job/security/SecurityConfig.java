@@ -54,18 +54,12 @@ public class SecurityConfig {
                 session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             )
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                .requestMatchers(
-                    "/api/auth/register",
-                    "/api/auth/login",
-                    "/api/auth/check-username",
-                    "/api/auth/generate-hash",
-                    "/api/site/**",
-                    "/api/auth/forgot-password/**"
-                ).permitAll()
-                .requestMatchers("/api/hr/**").hasAuthority("HR")
-                .requestMatchers("/api/admin/**").hasAuthority("ADMIN")
-                .anyRequest().authenticated()
+            	    .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+            	    .requestMatchers("/api/auth/**").permitAll()
+            	    .requestMatchers("/api/site/**").permitAll()
+            	    .requestMatchers("/api/hr/**").hasAuthority("HR")
+            	    .requestMatchers("/api/admin/**").hasAuthority("ADMIN")
+            	    .anyRequest().authenticated()
             )
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
