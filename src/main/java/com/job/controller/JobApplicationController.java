@@ -32,6 +32,16 @@ public class JobApplicationController {
         jobApplicationService.createJob(username, request);
         return "Job application created!";
     }
+    
+    @PutMapping("/{jobId}")
+    public String updateJob(
+            @PathVariable Long jobId,
+            @RequestBody JobApplicationRequest request) {
+        String username = SecurityContextHolder
+                .getContext().getAuthentication().getName();
+        jobApplicationService.updateJob(username, jobId, request);
+        return "Job updated!";
+    }
 
     @GetMapping
     public List<JobApplicationResponse> getAllJobs() {

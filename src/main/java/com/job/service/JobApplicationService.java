@@ -71,6 +71,37 @@ public class JobApplicationService {
             request.getCompanyName()
         );
     }
+    
+    public void updateJob(String username, Long jobId, JobApplicationRequest request) {
+        JobApplication job = jobApplicationRepository.findById(jobId).orElse(null);
+        if (job == null) return;
+        if (!job.getUser().getUsername().equals(username)) return;
+
+        job.setCompanyName(request.getCompanyName());
+        job.setJobTitle(request.getJobTitle());
+        job.setAppliedDate(request.getAppliedDate());
+
+        // Handle status change
+        if (!job.getApplicationStatus().equals(request.getApplicationStatus())) {
+            StatusHistory statusHistory = new StatusHistory();
+            statusHistory.setOldStatus(job.getApplicationStatus());
+            statusHistory.setNewStatus(request.getApplicationStatus());
+            statusHistory.setChangedAt(LocalDateTime.now());
+            statusHistory.setJobApplication(job);
+            statusHistoryRepository.save(statusHistory);
+
+            job.setApplicationStatus(request.getApplicationStatus());
+
+            notificationService.createNotification(username,
+                job.getCompanyName() + " → Status updated to " + request.getApplicationStatus());
+        }
+
+        job.getJobInformation().setJobDescription(request.getJobDescription());
+        job.getJobInformation().setJobQualifications(request.getJobQualifications());
+        job.getJobInformation().setJobStream(request.getJobStream());
+
+        jobApplicationRepository.save(job);
+    }
 
     public List<JobApplicationResponse> getAllJobsByUser(String username) {
         User user = userRepository.findByUsername(username);
