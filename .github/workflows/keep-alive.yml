@@ -11,4 +11,4 @@ jobs:
     steps:
       - name: Ping Backend
         run: |
-          curl --fail https://YOUR-RENDER-URL.onrender.com/api/site/header || true
+          curl --fail https://job-tracker-backend-x9nc.onrender.com/api/site/header || true
