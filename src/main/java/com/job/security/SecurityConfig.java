@@ -57,6 +57,8 @@ public class SecurityConfig {
             	    .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
             	    .requestMatchers("/api/auth/**").permitAll()
             	    .requestMatchers("/api/site/**").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/api/job-posts").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/api/job-posts/search").permitAll()
             	    .requestMatchers("/api/hr/**").hasAuthority("HR")
             	    .requestMatchers("/api/admin/**").hasAuthority("ADMIN")
             	    .anyRequest().authenticated()

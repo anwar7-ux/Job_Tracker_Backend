@@ -74,4 +74,49 @@ public class EmailService {
             System.out.println("Failed to send OTP email: " + e.getMessage());
         }
     }
+
+    public void sendApplicationReceivedEmail(
+            String toEmail, String username,
+            String jobTitle, String companyName) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(toEmail);
+        message.setSubject("Application Received - " + jobTitle);
+        message.setText(
+                "Hi " + username + "!\n\n" +
+                        "Your application for " + jobTitle +
+                        " at " + companyName + " has been received!\n\n" +
+                        "Status: PENDING\n\n" +
+                        "The recruiter will review your application soon.\n\n" +
+                        "Best Regards,\n" +
+                        "Job Tracker Team"
+        );
+        mailSender.send(message);
+    }
+
+    public void sendApplicationStatusEmail(
+            String toEmail, String username,
+            String jobTitle, String companyName,
+            String newStatus) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(toEmail);
+        message.setSubject("Application Status Updated - " + jobTitle);
+        message.setText(
+                "Hi " + username + "!\n\n" +
+                        "Your application status for " + jobTitle +
+                        " at " + companyName + " has been updated!\n\n" +
+                        "New Status: " + newStatus + "\n\n" +
+                        (newStatus.equals("OFFERED")
+                                ? "Congratulations! You have received a job offer!\n\n"
+                                : newStatus.equals("REJECTED")
+                                ? "Unfortunately your application was not selected this time.\n\n"
+                                : newStatus.equals("INTERVIEW")
+                                ? "Great news! You have been selected for an interview!\n\n"
+                                : newStatus.equals("RESUME_REVIEW")
+                                ? "Your resume is currently being reviewed!\n\n"
+                                : "") +
+                        "Best Regards,\n" +
+                        "Job Tracker Team"
+        );
+        mailSender.send(message);
+    }
 }
