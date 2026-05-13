@@ -66,6 +66,35 @@ public class EmailService {
         );
     }
 
+    public void sendApplicationReceivedEmail(String toEmail, String username,
+                                             String jobTitle, String companyName) {
+
+        sendEmail(
+                toEmail,
+                "Application Received - " + jobTitle,
+                "Hi " + username + "!\n\n" +
+                        "Your application for " + jobTitle +
+                        " at " + companyName + " has been received!\n\n" +
+                        "Status: PENDING\n\n" +
+                        "Best Regards,\nJob Tracker Team"
+        );
+    }
+
+    public void sendApplicationStatusEmail(String toEmail, String username,
+                                           String jobTitle, String companyName,
+                                           String newStatus) {
+
+        sendEmail(
+                toEmail,
+                "Application Status Updated - " + jobTitle,
+                "Hi " + username + "!\n\n" +
+                        "Your application status for " + jobTitle +
+                        " at " + companyName + " has been updated!\n\n" +
+                        "New Status: " + newStatus + "\n\n" +
+                        "Best Regards,\nJob Tracker Team"
+        );
+    }
+
     public void sendOtpEmail(String toEmail, String otp) {
 
         sendEmail(
