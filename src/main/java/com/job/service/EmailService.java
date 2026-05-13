@@ -114,7 +114,7 @@ public class EmailService {
                                 : newStatus.equals("RESUME_REVIEW")
                                 ? "Your resume is currently being reviewed!\n\n"
                                 : "") +
-                        "Best Regards,\nJob Tracker Team"
+                        "Best Regards,\nJob Tracker Team" 
         );
     }
 }
